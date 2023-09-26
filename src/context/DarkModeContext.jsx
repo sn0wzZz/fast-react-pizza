@@ -1,35 +1,37 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from "react";
 
-const DarkModeContext = createContext()
+const DarkModeContext = createContext();
 
 function DarkModeProvider({ children }) {
-  const [ isDarkMode, setIsDarkMode ] = useState('false')
+  const [isDarkMode, setIsDarkMode] = useState(
+    window.matchMedia("(prefers-color-scheme: dark"),
+  );
 
-  useEffect(()=>{
-    if(isDarkMode){
-      document.documentElement.classList.add('dark')
-    }else{
-      document.documentElement.classList.remove('dark')
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
   function toggleDarkMode() {
-    setIsDarkMode((isDark) => !isDark)
-    console.log(isDarkMode)
+    setIsDarkMode((isDark) => !isDark);
+    console.log(isDarkMode);
   }
 
   return (
     <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
       {children}
     </DarkModeContext.Provider>
-  )
+  );
 }
 
 function useDarkMode() {
-  const context = useContext(DarkModeContext)
+  const context = useContext(DarkModeContext);
   if (context === undefined)
-    throw new Error('DarkModeContext was used outside of DarkModeProvider')
-  return context
+    throw new Error("DarkModeContext was used outside of DarkModeProvider");
+  return context;
 }
 
-export { DarkModeProvider, useDarkMode }
+export { DarkModeProvider, useDarkMode };
